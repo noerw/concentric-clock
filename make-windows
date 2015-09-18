@@ -1,0 +1,18 @@
+CC = g++
+CFLAGS = -O2 -Wall -Wextra -std=c++11 -mwindows
+CFLAGSDEBUG = -O2 -Wall -Wextra -std=c++11
+
+INC = -I "SFML-2.1/include"
+LDFLAGS = -L "SFML-2.1/lib" -lmingw32 -lsfml-main -lsfml-system -lsfml-window -lsfml-graphics
+LDFLAGSDEBUG = -L "SFML-2.1/lib" -lmingw32 -lsfml-main-d -lsfml-system-d -lsfml-window-d -lsfml-graphics-d
+
+OBJ = CircularSector.o SegmentRing.o MovingSectors.o ConcentricClock.o main.o
+
+game: $(OBJ)
+# DEBUG
+	$(CC) $(CFLAGSDEBUG) -o cclock_debug $(OBJ) $(LDFLAGSDEBUG)
+# RELEASE
+	$(CC) $(CFLAGS) -o cclock_release $(OBJ) $(LDFLAGS)
+
+%.o: %.cpp
+	$(CC) $(INC) $(CFLAGS) -c $<
