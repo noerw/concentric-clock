@@ -15,4 +15,4 @@ game: $(OBJ)
 	$(CC) $(CFLAGS) -o cclock_release $(OBJ) $(LDFLAGS)
 
 %.o: %.cpp
-	$(CC) $(INC) $(CFLAGS) -c $<
+	$(CC) $(INC) $(CFLAGS) -c $
