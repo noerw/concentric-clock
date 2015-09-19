@@ -15,14 +15,14 @@ namespace CClock {
     const sf::Time updateTimestep = sf::seconds(0.0005);
     const sf::Color bgColor = sf::Color::Black;
     const int antialisingLvl = 4; //set antialising for shapes. doesnt affect textures (-> sf::Texture::setSmooth())
-    sf::Vector2f resolution{1280, 800};
+    sf::Vector2f resolution{1280, 775};
     bool fullScreen = false;
     
-    double clockRadius    = 150;
-    double clockRingsize  = 30;
-    double clockSpacing   = 5;
-    double clockThickness = 6* clockRingsize + 6* clockSpacing;
-    sf::Vector2f zoomSize{80, (float)clockThickness + 45};
+    const double clockRadius    = 150;
+    const double clockRingsize  = 30;
+    const double clockSpacing   = 5;
+    const double clockThickness = 6 * clockRingsize + 6 * clockSpacing;
+    sf::Vector2f zoomSize{90, (float)clockThickness + 45};
     
     // because we want to create the objects in init(), we use the default constructor, so nothing can go wrong here
     sf::RenderWindow window{};
@@ -42,44 +42,47 @@ namespace CClock {
     sf::RectangleShape darkenRect{};
     sf::CircleShape middleFixCirc{};
     
-    void resizeViews() {
+    void resizeViews(sf::Vector2f size) {
         //change view size (eg on resize event), to display everything porportionally
-        stdView.setSize(resolution);
+        stdView.setSize(size);
         stdView.setCenter(0, 0);
         stdView.setViewport(sf::FloatRect(0, 0, 1, 1));
         
         zoomedView.setSize(zoomSize);
         zoomedView.setCenter(0, clockRadius + clockThickness / 2);
         zoomedView.zoom(clockThickness / zoomSize.y + 0.04);
-        zoomedView.setViewport(sf::FloatRect(0.5 - (zoomSize.x / resolution.x) / 2,
-                                             0.5 + (clockRadius - ((zoomSize.y - clockThickness) / 2)) / resolution.y,
-                                             zoomSize.x / resolution.x,
-                                             zoomSize.y / resolution.y));
+        zoomedView.setViewport(sf::FloatRect(0.5 - (zoomSize.x / size.x) / 2,
+                                             0.5 + (clockRadius - ((zoomSize.y - clockThickness) / 2)) / size.y,
+                                             zoomSize.x / size.x,
+                                             zoomSize.y / size.y));
         //reset darkenRect
-        darkenRect.setSize(resolution);
-        darkenRect.setPosition(-resolution / 2.f);
+        darkenRect.setSize(size);
+        darkenRect.setPosition(-size / 2.f);
     }
     
     bool toggleFullscreen() {
         sf::ContextSettings settings;
         settings.antialiasingLevel = antialisingLvl;
+
         if (!fullScreen) {
             //go fullscreen
             sf::VideoMode fsMode = sf::VideoMode::getFullscreenModes()[0];
-            resolution = sf::Vector2f(fsMode.width, fsMode.height);
             window.create(fsMode, title + " " + version + " [FULLSCREEN]", sf::Style::Fullscreen, settings);
+            
             if(!window.isOpen()) {
                 std::cout << "Unable to enter fullscreen mode. Aborting execution.";
                 return false;
             }
+
             fullScreen = true;
+            resizeViews(sf::Vector2f(fsMode.width, fsMode.height));
         } else {
             //go windowed
-            resolution = sf::Vector2f(1000, 800);
             window.create(sf::VideoMode(resolution.x, resolution.y, 32), title + " " + version, sf::Style::None, settings);
             fullScreen = false;
+            resizeViews(resolution);
         }
-        resizeViews(); //reset resolution & resize views, because no resize event is fired
+
         return true;
     }
     
@@ -100,7 +103,7 @@ namespace CClock {
         }
 
         //views
-        resizeViews();
+        resizeViews(resolution);
         
         //texts
         titleText = sf::Text("Concentric Clock", font, 27);
@@ -160,9 +163,8 @@ namespace CClock {
                     break;
                     
                 case sf::Event::Resized:
-                    resolution = sf::Vector2f(event.size.width, event.size.height);
                     //resize the views, so everything is still displayed proportionally
-                    resizeViews();
+                    resizeViews(sf::Vector2f(event.size.width, event.size.height));
                     break;
                     
                 case sf::Event::KeyPressed:
