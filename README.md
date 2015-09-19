@@ -16,7 +16,7 @@ Currently only building on windows is supported natively.
 To do so
 
 * put the [SFML-library (v2.1)](http://www.sfml-dev.org/download/sfml/2.1/) in the folder `.\SFML-2.1\`
-* [optional] put the SFML `.dll` files in the repos root directory `.\`, for easier binary execution
+* [optional] put the SFML `.dll` files in the repos root directory `.\`, for easier binary execution, as the lib is dynamically linked.
 * If you are using mingw32, run `mingw32-make -f make-windows` to start compiling
 
 Successfully build this way on win7x64 using mingw 4.2.0.

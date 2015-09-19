@@ -2,3 +2,5 @@
 *.zip
 *.dll
 SFML-2.1/
+concentric-clock_dbg*
+concentric-clock_release*
