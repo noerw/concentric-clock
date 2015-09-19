@@ -85,7 +85,7 @@ namespace CClock {
     
     bool init() {
         //load font
-        if (!font.loadFromFile("Audiowide-Regular.ttf")) {
+        if (!font.loadFromFile("./res/Audiowide-Regular.ttf")) {
             std::cout << "Unable to load font. Aborting execution.";
             return false;
         }

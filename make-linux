@@ -8,9 +8,9 @@ OBJ = CircularSector.o SegmentRing.o MovingSectors.o ConcentricClock.o main.o
 
 game: $(OBJ)
 # DEBUG
-	$(CXX) $(CXXFLAGSDEBUG) -o concentric-clock_dbg $(OBJ) $(LDFLAGS)
+	$(CXX) $(CXXFLAGSDEBUG) -o bin/concentric-clock_dbg $(OBJ) $(LDFLAGS)
 # RELEASE
-	$(CXX) $(CXXFLAGS) -o concentric-clock_release $(OBJ) $(LDFLAGS)
+	$(CXX) $(CXXFLAGS) -o bin/concentric-clock_release $(OBJ) $(LDFLAGS)
 
-%.o: %.cpp
+%.o: src/%.cpp
 	$(CXX) $(CXXFLAGS) -c $<

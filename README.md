@@ -23,13 +23,14 @@ sudo apt-get install libsfml-dev libsfml2-dbg
 ```
 make -f make-linux
 ```
-* run: `./concentric-clock_dbg`
+* run: `./bin/concentric-clock_dbg`
 
 Note, that the linux build contains heavy artifacts and aliasing in the graphics. I'm looking for the source of this issue.
 
 ### Windows (tested on win7 x64)
-* put the [SFML-library (v2.1)](http://www.sfml-dev.org/download/sfml/2.1/) in the folder `.\SFML-2.1\`
-* [optional] put the SFML `.dll` files in the repos root directory `.\`, for easier binary execution, as the lib is dynamically linked.
+* put the [SFML-library (v2.1)](http://www.sfml-dev.org/download/sfml/2.1/) libraries in the folder `.\lib\`
+* put the SFML include files in the folder `.\include\SFML\`
+* [optional] put the SFML `.dll` files in the repos `.\bin` directory for easier binary execution, as the lib is dynamically linked.
 * If you are using mingw32, run `mingw32-make -f make-windows` to start compiling
 
 Successfully build this way on win7x64 using mingw 4.2.0.
