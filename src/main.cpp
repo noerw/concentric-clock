@@ -14,14 +14,15 @@ namespace CClock {
     const std::string version = "v0.2";
     const sf::Time updateTimestep = sf::seconds(0.0005);
     const sf::Color bgColor = sf::Color::Black;
-    sf::Vector2f resolution{1000, 800};
+    const int antialisingLvl = 4; //set antialising for shapes. doesnt affect textures (-> sf::Texture::setSmooth())
+    sf::Vector2f resolution{1280, 800};
     bool fullScreen = false;
     
     double clockRadius    = 150;
     double clockRingsize  = 30;
     double clockSpacing   = 5;
     double clockThickness = 6* clockRingsize + 6* clockSpacing;
-    sf::Vector2f zoomSize{80, (float)clockThickness + 45};    
+    sf::Vector2f zoomSize{80, (float)clockThickness + 45};
     
     // because we want to create the objects in init(), we use the default constructor, so nothing can go wrong here
     sf::RenderWindow window{};
@@ -61,7 +62,7 @@ namespace CClock {
     
     bool toggleFullscreen() {
         sf::ContextSettings settings;
-        settings.antialiasingLevel = 4;
+        settings.antialiasingLevel = antialisingLvl;
         if (!fullScreen) {
             //go fullscreen
             sf::VideoMode fsMode = sf::VideoMode::getFullscreenModes()[0];
@@ -76,7 +77,6 @@ namespace CClock {
             //go windowed
             resolution = sf::Vector2f(1000, 800);
             window.create(sf::VideoMode(resolution.x, resolution.y, 32), title + " " + version, sf::Style::None, settings);
-            window.setPosition(sf::Vector2i(10,10));
             fullScreen = false;
         }
         resizeViews(); //reset resolution & resize views, because no resize event is fired
@@ -92,9 +92,8 @@ namespace CClock {
         
         //window
         sf::ContextSettings settings;
-        settings.antialiasingLevel = 4; //set antialising for shapes. doesnt affect textures (-> sf::Texture::setSmooth())
+        settings.antialiasingLevel = antialisingLvl;
         window.create(sf::VideoMode(resolution.x, resolution.y, 32), title + " " + version, sf::Style::None, settings);
-        window.setPosition(sf::Vector2i(10,10));
         if(!window.isOpen()) {
             std::cout << "Unable to open window object. Aborting execution.";
             return false;
@@ -107,22 +106,22 @@ namespace CClock {
         titleText = sf::Text("Concentric Clock", font, 27);
         titleText.setColor(sf::Color::White);
         titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
-        titleText.setPosition(0, -40);
+        titleText.setPosition(0, -22);
 
         infoText = sf::Text("http://github.com/noerw", font, 12);
         infoText.setColor(sf::Color(200,200,200));
         infoText.setOrigin(infoText.getLocalBounds().width / 2, infoText.getLocalBounds().height / 2);
-        infoText.setPosition(0, -10);
+        infoText.setPosition(0, 7);
         
         //moving Sectors
         double radii[2] = {clockRadius - 5, clockRadius + clockThickness + 11};
-        double rotSpeeds[2] = { 40, -20};
-        mSectors = MovingSectors{sizeof(radii)/sizeof(*radii), radii, rotSpeeds};
+        double rotSpeeds[2] = {40, -20};
+        mSectors = MovingSectors{sizeof(radii) / sizeof(*radii), radii, rotSpeeds};
 
         //half transparent rectShape to darken the clock where its not in the zoomedView
         darkenRect.setSize(resolution);
         darkenRect.setPosition(-resolution / 2.f);
-        darkenRect.setFillColor(sf::Color(0,0,5,90));
+        darkenRect.setFillColor(bgColor * sf::Color(0,0,0,100));
         
         //zoomed indicator
         zoomRect.setSize(zoomSize);
