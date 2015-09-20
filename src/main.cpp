@@ -15,7 +15,7 @@ namespace CClock {
     const sf::Time updateTimestep = sf::seconds(0.0005);
     const sf::Color bgColor = sf::Color::Black;
     const int antialisingLvl = 4; //set antialising for shapes. doesnt affect textures (-> sf::Texture::setSmooth())
-    sf::Vector2f resolution{1280, 775};
+    sf::Vector2f resolution{1280, 800};
     bool fullScreen = false;
     
     const double clockRadius    = 150;
@@ -87,8 +87,14 @@ namespace CClock {
     }
     
     bool init() {
+
+        std::string RES_PATH = "./res/";
+#ifdef _WIN32
+        RES_PATH = "../res/";
+#endif
+
         //load font
-        if (!font.loadFromFile("./res/Audiowide-Regular.ttf")) {
+        if (!font.loadFromFile(RES_PATH + "Audiowide-Regular.ttf")) {
             std::cout << "Unable to load font. Aborting execution.";
             return false;
         }
@@ -111,7 +117,7 @@ namespace CClock {
         titleText.setOrigin(titleText.getLocalBounds().width / 2, titleText.getLocalBounds().height / 2);
         titleText.setPosition(0, -22);
 
-        infoText = sf::Text("http://github.com/noerw", font, 12);
+        infoText = sf::Text("github.com/noerw", font, 12);
         infoText.setColor(sf::Color(200,200,200));
         infoText.setOrigin(infoText.getLocalBounds().width / 2, infoText.getLocalBounds().height / 2);
         infoText.setPosition(0, 7);

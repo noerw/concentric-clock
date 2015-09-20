@@ -1,6 +1,5 @@
-*.o
 *.zip
+*.o
 *.dll
-lib/
-include/
+lib/*/
 bin/concentric-clock*
