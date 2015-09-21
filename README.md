@@ -2,7 +2,8 @@
 
 An unconventional representation of a clock.
 It shows rotating concentric rings, each showing one unit of time & date.
-[Screenshot!](http://github.com/noerw/concentric-clock/blob/master/screenshot.png)
+
+![Screenshot](https://raw.githubusercontent.com/noerw/concentric-clock/master/screenshot.png)
 
 This concept was inspired by mindbrix' ["Concentrichron"](http://www.concentrichron.com/).
 
